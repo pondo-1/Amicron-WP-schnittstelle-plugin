@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+  <id>12345</id>
+  <articleNumber>ART001</articleNumber>
+  <name>Test Artikel</name>
+  <description>Dies ist ein Test-Artikel für die Export-Funktionalität</description>
+  <price>19.99</price>
+  <taxRate>19</taxRate>
+  <Artikel_Status>1</Artikel_Status>
+  <Artikel_Gewicht>0.5</Artikel_Gewicht>
+  <Artikel_Menge>100</Artikel_Menge>
+  <Artikel_KategorieID1>0</Artikel_KategorieID1>
+  <Artikel_KategorieID2>0</Artikel_KategorieID2>
+  <Artikel_KategorieID3>0</Artikel_KategorieID3>
+  <Hersteller_ID>0</Hersteller_ID>
+  <Artikel_Startseite>0</Artikel_Startseite>
+  <Artikel_LieferzeitTage>0</Artikel_LieferzeitTage>
+  <Artikel_Bilddateien>0</Artikel_Bilddateien>
+  <SkipImages>0</SkipImages>
+  <Feld_LFDNR>LFD001</Feld_LFDNR>
+  <Feld_ARTIKELNR>ART001</Feld_ARTIKELNR>
+  <Feld_UMSATZMENGE>0</Feld_UMSATZMENGE>
+  <Feld_UMSATZ>0</Feld_UMSATZ>
+  <Feld_PROVISION>0</Feld_PROVISION>
+  <Feld_GEWICHT>0</Feld_GEWICHT>
+  <Feld_BESTELLMENGE>0</Feld_BESTELLMENGE>
+  <Feld_BESTANDMINDEST>0</Feld_BESTANDMINDEST>
+  <Feld_VK1>0</Feld_VK1>
+  <Feld_VK1BRUTTO>0</Feld_VK1BRUTTO>
+  <Feld_EKPREIS>0</Feld_EKPREIS>
+  <Feld_EKLETZTER>0</Feld_EKLETZTER>
+  <Feld_PREISEINHEIT>0</Feld_PREISEINHEIT>
+  <Feld_BILDANZEIGE>0</Feld_BILDANZEIGE>
+  <Feld_STEUERSATZ>0</Feld_STEUERSATZ>
+  <Feld_RESERVIERT>0</Feld_RESERVIERT>
+  <Feld_EKMITTEL>0</Feld_EKMITTEL>
+  <Feld_LIEFERZEITTAGE>0</Feld_LIEFERZEITTAGE>
+  <Feld_VERPACKUNGSEINHEIT>0</Feld_VERPACKUNGSEINHEIT>
+  <Feld_GRUNDEINHEIT>0</Feld_GRUNDEINHEIT>
+  <Feld_GRUNDGEWICHT>0</Feld_GRUNDGEWICHT>
+  <Feld_BESTAND>0</Feld_BESTAND>
+  <Feld_clcVERFUEGBAR>0</Feld_clcVERFUEGBAR>
+  <Feld_clcPLUS>0</Feld_clcPLUS>
+  <Feld_clcGRUNDPREISNETTO>0</Feld_clcGRUNDPREISNETTO>
+  <Feld_clcGRUNDPREISBRUTTO>0</Feld_clcGRUNDPREISBRUTTO>
+  <Feld_HSNAME>Test Hersteller</Feld_HSNAME>
+</article>

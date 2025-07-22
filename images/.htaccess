@@ -1,0 +1,28 @@
+# Protect images directory from direct access
+
+# Allow only specific image types and prevent execution of PHP files
+
+# Deny access to all files by default
+
+<FilesMatch ".\*">
+Order Deny,Allow
+Deny from all
+</FilesMatch>
+
+# Allow access only to image files
+
+<FilesMatch "\.(jpg|jpeg|png|gif|bmp|webp|svg)$">
+Order Allow,Deny
+Allow from all
+</FilesMatch>
+
+# Prevent execution of PHP files
+
+<FilesMatch "\.php$">
+Order Deny,Allow
+Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+
+Options -Indexes

@@ -1,0 +1,14 @@
+25-07-14-15:52:36 [INFO] start next request
+25-07-14-15:52:36 [INFO] HTTP Request Method: GET
+25-07-14-15:52:36 [INFO] Requested URL: /woo.php?action=read_version
+25-07-14-15:52:36 [INFO] Query String: action=read_version
+25-07-14-15:52:36 [INFO] Content-Type: 
+25-07-14-15:52:36 [INFO] Request Headers: {"Host":"localhost:8000","User-Agent":"curl\/7.81.0","Accept":"*\/*"}
+25-07-14-15:52:36 [INFO] Request Body (raw): 
+25-07-14-15:52:36 [INFO] POST Data: []
+25-07-14-15:52:36 [WARNING] Could not determine how to parse request body with content type: 
+25-07-14-15:52:36 [INFO] Processed request data: []
+25-07-14-15:52:36 [INFO] Action: read_version
+25-07-14-15:52:36 [INFO] ReadVersion<?xml version="1.0" encoding="UTF-8"?>
+<STATUS><STATUS_DATA><SCRIPT_VERSION_MAJOR>14</SCRIPT_VERSION_MAJOR><SCRIPT_VERSION_MINOR>1</SCRIPT_VERSION_MINOR><SCRIPT_DEFAULTCHARSET>Default_Charset</SCRIPT_DEFAULTCHARSET></STATUS_DATA></STATUS>
+
