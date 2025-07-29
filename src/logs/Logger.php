@@ -1,9 +1,8 @@
 <?php
-/**
- * @author Stefan Witt <stefan.witt@rathje-design.de>
- */
 
-class Logger {
+
+class Logger
+{
     private $logFile;
 
     private $minimumLogLevel;
@@ -14,12 +13,14 @@ class Logger {
         'error' => 3
     ];
 
-    public function __construct($logFile, $minimumLogLevel = 'info') {
+    public function __construct($logFile, $minimumLogLevel = 'info')
+    {
         $this->logFile = $logFile;
         $this->minimumLogLevel = $minimumLogLevel;
     }
 
-      public function log($message, $level = 'info') {
+    public function log($message, $level = 'info')
+    {
         // Prüfen, ob der aktuelle Level größer oder gleich dem minimalen Log-Level ist
         if (self::LEVELS[$level] >= self::LEVELS[$this->minimumLogLevel]) {
             // Set the timezone to your preference
@@ -36,15 +37,18 @@ class Logger {
         }
     }
 
-    public function info($message) {
+    public function info($message)
+    {
         $this->log($message, 'info');
     }
 
-    public function warning($message) {
+    public function warning($message)
+    {
         $this->log($message, 'warning');
     }
 
-    public function error($message) {
+    public function error($message)
+    {
         $this->log($message, 'error');
     }
 }

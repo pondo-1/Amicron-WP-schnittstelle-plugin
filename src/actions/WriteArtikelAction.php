@@ -257,8 +257,8 @@ class WriteArtikelAction extends AbstractAction
     private function getPluginDirectory()
     {
         // Check if we're in WordPress environment
-        if (defined('MEC_SHOP_PLUGIN_PATH')) {
-            return MEC_SHOP_PLUGIN_PATH;
+        if (defined('MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH')) {
+            return MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH;
         }
 
         // Fallback for standalone mode - get parent directory of src/

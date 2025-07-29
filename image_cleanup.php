@@ -15,8 +15,8 @@ class ImageCleanup
     public function __construct()
     {
         // Determine images directory path
-        if (defined('MEC_SHOP_PLUGIN_PATH')) {
-            $this->imagesDir = MEC_SHOP_PLUGIN_PATH . '/images';
+        if (defined('MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH')) {
+            $this->imagesDir = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . '/images';
         } else {
             $this->imagesDir = dirname(__DIR__) . '/images';
         }

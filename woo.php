@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MEC Shop API - Direct Script Access
+ * Direct Script Access
  * This file provides direct access to the MEC Shop API for external applications
  * that need to call a specific PHP script rather than using WordPress endpoints.
  * 
@@ -30,11 +30,11 @@ if (!defined('ABSPATH')) {
 }
 
 // Now we're in WordPress context - use the plugin functionality
-if (class_exists('MecShopPlugin')) {
+if (class_exists('MecAmicronSchnittstelle')) {
     // Get the plugin instance and handle the request
     global $mec_shop_plugin_instance;
     if (!$mec_shop_plugin_instance) {
-        $mec_shop_plugin_instance = new MecShopPlugin();
+        $mec_shop_plugin_instance = new MecAmicronSchnittstelle();
     }
 
     // Handle the API request directly
