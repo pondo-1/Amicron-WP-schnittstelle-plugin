@@ -28,6 +28,7 @@ class MecAmicronSchnittstelle
 {
 
     private $logger;
+    private $summaryLogger;
 
     public function __construct()
     {
@@ -100,6 +101,7 @@ class MecAmicronSchnittstelle
         }
 
         $this->logger = new Logger($log_dir . '/logs.txt', 'info');
+        $this->summaryLogger = new Logger($log_dir . '/summary_logs.txt', 'info');
     }
 
     /**
@@ -142,7 +144,13 @@ class MecAmicronSchnittstelle
             // Get action
             $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : '');
             $this->logger->info("Action: $action");
-
+            $this->summaryLogger->info(sprintf(
+                "%s | %s | %s | %s",
+                date('Y-m-d H:i:s'),
+                $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',
+                $action,
+                json_encode($requestData)
+            ));
             // Process action
             $response = $this->process_action($action, $requestData);
 
@@ -236,6 +244,23 @@ class MecAmicronSchnittstelle
             <h1>MEC Shop Amicron Schnittstelle</h1>
             <p>Welcome to the MEC Shop Amicron Schnittstelle plugin. Use the API to manage your product data.</p>
             <h2>Plugin Logs</h2>
+            summary
+            <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
+                <?php
+                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs/summary_logs.txt';
+                if (file_exists($log_file)) {
+                    $logs = file($log_file);
+                    // Show last 1000 lines for performance
+                    $logs = array_slice($logs, -1000);
+                    foreach ($logs as $line) {
+                        echo esc_html($line) . "<br>";
+                    }
+                } else {
+                    echo '<em>No log file found.</em>';
+                }
+                ?>
+            </div>
+            all
             <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
                 <?php
                 $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs/logs.txt';
