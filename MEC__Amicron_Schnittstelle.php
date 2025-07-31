@@ -21,6 +21,8 @@ define('MEC_AMICRON_SCHNITTSTELLE_VERSION', '1.1.2');
 define('MEC_AMICRON_SCHNITTSTELLE_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
+
+
 /**
  * Main MEC Shop Plugin Class
  */
@@ -48,17 +50,30 @@ class MecAmicronSchnittstelle
     public function init()
     {
         // Load required files
-        $this->load_dependencies();
+        $this->__autoload();
 
         // Initialize logger
-        $this->init_logger();
+        $this->logger = LogManager::getLogger();
+
     }
 
-    /**
-     * Load all required files
-     */
-    private function load_dependencies()
+
+public function __autoload()
     {
+        // Set up autoloader
+        spl_autoload_register(function ($class_name) {
+            $namespace = 'MEC_AmicronSchnittstelle\\';
+            if (strpos($class_name, $namespace) !== false) {
+                $class_name = str_replace($namespace, '', $class_name);
+                $file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/' . str_replace('\\', '/', $class_name) . '.php';
+                if (file_exists($file)) {
+                    require_once $file;
+                } else {
+                    error_log("Failed to load file: " . $file);
+                }
+            }
+        });
+    }
         // Load core classes
         require_once MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs/Logger.php';
 
@@ -100,8 +115,10 @@ class MecAmicronSchnittstelle
             wp_mkdir_p($log_dir);
         }
 
-        $this->logger = new Logger($log_dir . '/logs.txt', 'info');
-        $this->summaryLogger = new Logger($log_dir . '/summary_logs.txt', 'info');
+        // Use shared logger everywhere
+        $this->logger = LogManager::getDefaultLogger();
+        $this->summaryLogger = LogManager::getSummaryLogger();
+        // You can also reuse $this->logger for summaries or create a second shared Logger via LogManager if needed
     }
 
     /**
@@ -119,103 +136,11 @@ class MecAmicronSchnittstelle
     public function handle_custom_endpoint()
     {
         if (get_query_var('mec_shop_api')) {
-            $this->handle_api_request();
+            $apiHandler = new \MEC_AmicronSchnittstelle\Init\ApiHandler();
+            $apiHandler->handle_request();
             exit;
         }
     }
-
-    /**
-     * Handle API requests (main functionality from woo.php)
-     */
-    public function handle_api_request()
-    {
-        try {
-            // Initialize components
-            $requestParser = new RequestParser($this->logger);
-            $responseHandler = new ResponseHandler($this->logger);
-
-            // Log request
-            $requestParser->logHttpRequest();
-            $requestData = $requestParser->parseRequestData();
-
-            // Set headers
-            $responseHandler->setHeaders();
-
-            // Get action
-            $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : '');
-            $this->logger->info("Action: $action");
-            $this->summaryLogger->info(sprintf(
-                "%s | %s | %s | %s",
-                date('Y-m-d H:i:s'),
-                $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',
-                $action,
-                json_encode($requestData)
-            ));
-            // Process action
-            $response = $this->process_action($action, $requestData);
-
-            // Send response
-            $responseHandler->sendResponse($response);
-        } catch (Exception $e) {
-            $this->logger->error("Error processing action: " . $e->getMessage());
-            $responseHandler = new ResponseHandler($this->logger);
-            $responseHandler->sendError("Internal server error: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Process API actions
-     */
-    private function process_action($action, $requestData)
-    {
-        $version_major = MEC_AMICRON_SCHNITTSTELLE_VERSION;
-        $version_minor = 1;
-        $default_charset = "Default_Charset";
-
-        switch ($action) {
-            case 'read_version':
-                $actionHandler = new ReadVersionAction($this->logger, $version_major, $version_minor, $default_charset);
-                return $actionHandler->execute();
-
-            case 'read_languages':
-                $actionHandler = new ReadLanguagesAction($this->logger);
-                return $actionHandler->execute();
-
-            case 'read_categories':
-                $actionHandler = new ReadCategoriesAction($this->logger);
-                return $actionHandler->execute();
-
-            case 'read_hersteller':
-                $actionHandler = new ReadManufacturersAction($this->logger);
-                return $actionHandler->execute();
-
-            case 'read_shopdata':
-                $actionHandler = new ReadShopDataAction($this->logger);
-                return $actionHandler->execute();
-
-            case 'write_artikel':
-                // Enhanced logging for write_artikel requests
-                $this->logger->info("=== WRITE_ARTIKEL REQUEST RECEIVED ===");
-                $this->logger->info("Request timestamp: " . date('Y-m-d H:i:s'));
-                $this->logger->info("Client IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
-                $this->logger->info("User Agent: " . ($_SERVER['HTTP_USER_AGENT'] ?? 'unknown'));
-                if (!empty($_SERVER['HTTP_REFERER'])) {
-                    $this->logger->info("Referer: " . $_SERVER['HTTP_REFERER']);
-                }
-
-                $actionHandler = new WriteArtikelAction($this->logger);
-                return $actionHandler->execute($requestData);
-
-            case 'write_categorie':
-            case 'add_artikel_image':
-            case 'write_hersteller':
-                $this->logger->warning("nyi: $action");
-                throw new Exception("Not yet implemented: $action");
-
-            default:
-                $this->logger->warning("unknown action: $action");
-                throw new Exception("Unknown action: $action");
-        }
     }
 
     /**

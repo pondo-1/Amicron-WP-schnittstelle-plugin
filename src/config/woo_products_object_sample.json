@@ -1,0 +1,60 @@
+{
+  "id": 123,
+  "name": "Product Name",
+  "slug": "product-name",
+  "permalink": "https://example.com/product/product-name/",
+  "date_created": "2024-06-01T12:00:00",
+  "type": "simple",
+  "status": "publish",
+  "featured": false,
+  "catalog_visibility": "visible",
+  "description": "Full product description.",
+  "short_description": "Short description.",
+  "sku": "SKU123",
+  "price": "19.99",
+  "regular_price": "19.99",
+  "sale_price": "",
+  "date_on_sale_from": null,
+  "date_on_sale_to": null,
+  "total_sales": 0,
+  "tax_status": "taxable",
+  "tax_class": "",
+  "manage_stock": false,
+  "stock_quantity": null,
+  "stock_status": "instock",
+  "weight": "1.2",
+  "dimensions": {
+    "length": "10",
+    "width": "5",
+    "height": "2"
+  },
+  "categories": [
+    {
+      "id": 9,
+      "name": "Category Name",
+      "slug": "category-name"
+    }
+  ],
+  "images": [
+    {
+      "id": 456,
+      "src": "https://example.com/wp-content/uploads/2024/06/image.jpg",
+      "name": "image.jpg",
+      "alt": ""
+    }
+  ],
+  "attributes": [
+    {
+      "id": 1,
+      "name": "Color",
+      "option": "Blue"
+    }
+  ],
+  "meta_data": [
+    {
+      "id": 1,
+      "key": "_custom_meta_key",
+      "value": "Custom Value"
+    }
+  ]
+}

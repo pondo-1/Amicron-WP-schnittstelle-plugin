@@ -1,0 +1,44 @@
+
+1. Update durch sku 
+2. Update durch Artikel ID  
+{
+  "name": Artikel["Artikel_DBText1"],
+  "type": "simple" || "variable", // if Artikel["Artikel_Freifeld6"][0] is "master"
+  "description": Artikel["Artikel_DBText4"],
+  "short_description": Artikel["Artikel_DBText8"],
+  "sku": Artikel["Artikel_ID"],
+  "price": Artikel["Artikel_Preis"],
+  "regular_price": Artikel["Artikel_Preis"],
+  "manage_stock": true,
+  "stock_quantity": Artikel["Artikel_Menge"],
+  "taxonomies": {
+    "product_cat": Artikel["Artikel_Freifeld17"],
+    "product_brand": Artikel["Artikel_Freifeld16"]
+  },
+
+  // featured image?
+  "images": [
+    {
+      // get ID from the media library or Artikel["artikel_imagesDateiname0"]
+      //"id": 456,
+    }
+  ],
+  // this is for variable products
+  "attributes": [
+    {
+      "id": 1,
+      "name": Artikel["Artikel_Freifeld6"][2],
+      "options?": Artikel["Artikel_Freifeld18"],// seperate by \/
+    }
+  ],
+  "meta_data": [
+    {
+      "key": "amicron_artikelnr",
+      "value": Artikel["Artikel_artikelnr"]
+    }
+    {
+      "key": "compatible", {{need to check name of the how i defined in woo}}
+      "value": Artikel["Artikel_Kurztext1"]
+    }
+  ]
+}

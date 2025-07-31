@@ -1,14 +1,13 @@
 <?php
 
-/**
- * @author Stefan Witt <stefan.witt@rathje-design.de>
- */
 require_once 'AbstractAction.php';
 require_once __DIR__ . '/../dto/ArticleDTO.php';
 require_once __DIR__ . '/../exporters/XmlExporter.php';
 require_once __DIR__ . '/../exporters/JsonExporter.php';
 require_once __DIR__ . '/../exporters/ExcelExporter.php';
 require_once __DIR__ . '/../exporters/FileWriter.php';
+
+use MEC\AmicronSchnittstelle\logs\LogManager;
 
 class WriteArtikelAction extends AbstractAction
 {
@@ -21,6 +20,7 @@ class WriteArtikelAction extends AbstractAction
 
     public function execute($requestData = [])
     {
+        LogManager::getDefaultLogger()->info('Executing WriteArtikelAction with request data: ' . json_encode($requestData));
         $this->logger->info('WriteArtikel called with parsed request data');
 
         // Log detailed request information
@@ -116,53 +116,9 @@ class WriteArtikelAction extends AbstractAction
 
         // Log specific article fields
         $this->logger->info("=== EXTRACTED ARTICLE FIELDS ===");
-        // $articleFields = [
-        //     'Artikel_ID',
-        //     'Artikel_Artikelnr',
-        //     'Artikel_Bezeichnung1',
-        //     'Artikel_Text1',
-        //     'Artikel_Preis',
-        //     'Artikel_Steuersatz',
-        //     'Artikel_Status',
-        //     'Artikel_Gewicht',
-        //     'Artikel_Menge',
-        //     'ExportModus',
-        //     'Feld_LFDNR',
-        //     'Feld_ARTIKELNR',
-        //     'Feld_HSNAME'
-        // ];
-
-        // foreach ($articleFields as $field) {
-        //     if (isset($requestData[$field])) {
-        //         $this->logger->info("$field: " . $requestData[$field]);
-        //     }
-        // }
-
         //show all fields in the request data
         foreach ($requestData as $key => $value) {
-            // Check if the key is for an image and value looks like file data (base64 or binary)
-            if (in_array(strtolower($key), ['artikel_image', 'artikel_image0']) && !empty($value)) {
-                // Try to detect if it's base64-encoded image data
-                if (is_string($value) && preg_match('/^data:image\/(\w+);base64,/', $value, $type)) {
-                    $imageData = substr($value, strpos($value, ',') + 1);
-                    $imageData = base64_decode($imageData);
-                    $extension = $type[1];
-                } else {
-                    // Assume binary data, default to jpg
-                    $imageData = $value;
-                    $extension = 'jpg';
-                }
-
-                // Save image to plugin directory
-                $filename = $this->saveImageToPluginDirectory($imageData, $key, $extension);
-                if ($filename) {
-                    $this->logger->info("$key: [image saved to $filename]");
-                } else {
-                    $this->logger->error("$key: [failed to save image]");
-                }
-            } else {
-                $this->logger->info("$key: " . $value);
-            }
+            $this->logger->info("$key: " . $value);
         }
 
         $this->logger->info("=== END REQUEST DETAILS ===");

@@ -37,8 +37,18 @@ if (class_exists('MecAmicronSchnittstelle')) {
         $mec_shop_plugin_instance = new MecAmicronSchnittstelle();
     }
 
-    // Handle the API request directly
-    $mec_shop_plugin_instance->handle_api_request();
+    // Assuming you now have an APIHandler class with a new structure
+    if (class_exists('APIHandler')) {
+        $apiHandler = new \MEC_AmicronSchnittstelle\Init\ApiHandler();
+        $apiHandler->handle_request();
+    } else {
+        http_response_code(503);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' => 'APIHandler not found',
+            'message' => 'APIHandler class is missing or not loaded'
+        ]);
+    }
 } else {
     // Plugin not active - show error
     http_response_code(503);
