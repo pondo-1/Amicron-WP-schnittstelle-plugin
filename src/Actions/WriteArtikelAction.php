@@ -1,13 +1,22 @@
 <?php
 
-require_once 'AbstractAction.php';
+namespace MEC_AmicronSchnittstelle\Actions;
+
+use MEC_AmicronSchnittstelle\Core\LogManager;
+use MEC_AmicronSchnittstelle\DTO\ArticleDTO;
+use MEC_AmicronSchnittstelle\Exporters\JsonExporter;
+use MEC_AmicronSchnittstelle\Exporters\XmlExporter;
+use MEC_AmicronSchnittstelle\Exporters\ExcelExporter;
+use MEC_AmicronSchnittstelle\Exporters\FileWriter;
+
+
 require_once __DIR__ . '/../dto/ArticleDTO.php';
 require_once __DIR__ . '/../exporters/XmlExporter.php';
 require_once __DIR__ . '/../exporters/JsonExporter.php';
 require_once __DIR__ . '/../exporters/ExcelExporter.php';
 require_once __DIR__ . '/../exporters/FileWriter.php';
 
-use MEC\AmicronSchnittstelle\logs\LogManager;
+
 
 class WriteArtikelAction extends AbstractAction
 {

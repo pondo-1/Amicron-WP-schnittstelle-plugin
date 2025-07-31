@@ -1,10 +1,16 @@
 <?php
+
 /**
  * Abstract base class for all API actions
  * 
- * @author Stefan Witt <stefan.witt@rathje-design.de>
  */
-abstract class AbstractAction {
+
+namespace MEC_AmicronSchnittstelle\Actions;
+
+use MEC_AmicronSchnittstelle\Core\Logger;
+
+abstract class AbstractAction
+{
     protected $logger;
 
     /**
@@ -12,7 +18,8 @@ abstract class AbstractAction {
      *
      * @param Logger $logger The logger instance
      */
-    public function __construct(Logger $logger) {
+    public function __construct(Logger $logger)
+    {
         $this->logger = $logger;
     }
 
@@ -24,4 +31,3 @@ abstract class AbstractAction {
      */
     abstract public function execute($requestData = []);
 }
-?>

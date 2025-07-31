@@ -1,18 +1,18 @@
 <?php
-/**
- * @author Stefan Witt <stefan.witt@rathje-design.de>
- */
+
 require_once 'AbstractAction.php';
 require_once __DIR__ . '/../shopdata.php';
 
-class ReadShopDataAction extends AbstractAction {
+class ReadShopDataAction extends AbstractAction
+{
     /**
      * Execute the action
      *
      * @param array $requestData The request data (not used in this action)
      * @return string XML response
      */
-    public function execute($requestData = []) {
+    public function execute($requestData = [])
+    {
         $shopData = new ShopData();
         $shopData->addTaxRate(1, 19.0);
         $shopData->addTaxRate(2, 7.0);
@@ -26,4 +26,3 @@ class ReadShopDataAction extends AbstractAction {
         return $xmlString;
     }
 }
-?>

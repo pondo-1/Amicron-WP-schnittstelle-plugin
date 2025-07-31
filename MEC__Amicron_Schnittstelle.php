@@ -52,6 +52,8 @@ class MecAmicronSchnittstelle
         // Load required files
         $this->__autoload();
 
+        new MEC__CreateProducts\Init\AdminOptionPage();
+
         // Initialize logger
         $this->logger = LogManager::getLogger();
 

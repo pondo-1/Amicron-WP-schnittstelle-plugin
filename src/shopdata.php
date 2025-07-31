@@ -1,28 +1,31 @@
 <?php
-/**
- * @author Stefan Witt <stefan.witt@rathje-design.de>
- */
 
-class ShopData {
+
+class ShopData
+{
     private $taxRates = [];
     private $shippingStatus = [];
     private $customersStatus = [];
 
     // Setter-Methoden
-    public function addTaxRate($id, $rate) {
+    public function addTaxRate($id, $rate)
+    {
         $this->taxRates[] = ['ID' => $id, 'RATE' => $rate];
     }
 
-    public function addShippingStatus($id, $languageId, $name) {
+    public function addShippingStatus($id, $languageId, $name)
+    {
         $this->shippingStatus[] = ['ID' => $id, 'LANGUAGEID' => $languageId, 'NAME' => $name];
     }
 
-    public function addCustomerStatus($id, $languageId, $name) {
+    public function addCustomerStatus($id, $languageId, $name)
+    {
         $this->customersStatus[] = ['ID' => $id, 'LANGUAGEID' => $languageId, 'NAME' => $name];
     }
 
     // Methode zur Generierung des XML
-    public function generateXML() {
+    public function generateXML()
+    {
         $xml = new SimpleXMLElement('<SHOPDATA/>');
 
         // TAXRATES
@@ -66,4 +69,3 @@ class ShopData {
 
 // $xmlString = $shopData->generateXML();
 // echo $xmlString;
-?>
