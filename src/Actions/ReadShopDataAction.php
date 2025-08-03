@@ -1,7 +1,9 @@
 <?php
 
-require_once 'AbstractAction.php';
-require_once __DIR__ . '/../shopdata.php';
+namespace MEC_AmicronSchnittstelle\Actions;
+
+use MEC_AmicronSchnittstelle\ShopEntities\ShopData;
+use MEC_AmicronSchnittstelle\Log\Logger;
 
 class ReadShopDataAction extends AbstractAction
 {
@@ -11,6 +13,11 @@ class ReadShopDataAction extends AbstractAction
      * @param array $requestData The request data (not used in this action)
      * @return string XML response
      */
+
+    public function __construct(Logger $logger)
+    {
+        parent::__construct($logger);
+    }
     public function execute($requestData = [])
     {
         $shopData = new ShopData();

@@ -2,7 +2,7 @@
 
 namespace MEC_AmicronSchnittstelle\Actions;
 
-use MEC_AmicronSchnittstelle\Core\LogManager;
+use MEC_AmicronSchnittstelle\Log\LogManager;
 use MEC_AmicronSchnittstelle\DTO\ArticleDTO;
 use MEC_AmicronSchnittstelle\Exporters\JsonExporter;
 use MEC_AmicronSchnittstelle\Exporters\XmlExporter;

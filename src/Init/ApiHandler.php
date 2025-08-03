@@ -2,7 +2,7 @@
 
 namespace MEC_AmicronSchnittstelle\Init;
 
-use MEC_AmicronSchnittstelle\Core\LogManager;
+use MEC_AmicronSchnittstelle\Log\LogManager;
 use MEC_AmicronSchnittstelle\Core\RequestParser;
 use MEC_AmicronSchnittstelle\Core\ResponseHandler;
 use MEC_AmicronSchnittstelle\Actions\ReadVersionAction;
@@ -47,8 +47,7 @@ class ApiHandler
 
             // Summary log: timestamp | method | action
             $this->summaryLogger->info(sprintf(
-                "%s | %s | %s",
-                date('Y-m-d H:i:s'),
+                "%s | %s",
                 $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',
                 $action
             ));

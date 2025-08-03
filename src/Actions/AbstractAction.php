@@ -7,7 +7,7 @@
 
 namespace MEC_AmicronSchnittstelle\Actions;
 
-use MEC_AmicronSchnittstelle\Core\Logger;
+use MEC_AmicronSchnittstelle\Log\Logger;
 
 abstract class AbstractAction
 {

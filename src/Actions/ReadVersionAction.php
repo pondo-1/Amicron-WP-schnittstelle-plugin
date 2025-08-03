@@ -1,6 +1,9 @@
 <?php
 
-require_once 'AbstractAction.php';
+namespace MEC_AmicronSchnittstelle\Actions;
+
+use MEC_AmicronSchnittstelle\Log\Logger;
+use DOMDocument;
 
 class ReadVersionAction extends AbstractAction
 {

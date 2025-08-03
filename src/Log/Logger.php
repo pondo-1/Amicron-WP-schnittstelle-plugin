@@ -1,6 +1,6 @@
 <?php
 
-namespace MEC_AmicronSchnittstelle\Core;
+namespace MEC_AmicronSchnittstelle\Log;
 
 class Logger
 {

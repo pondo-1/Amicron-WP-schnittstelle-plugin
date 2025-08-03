@@ -13,7 +13,7 @@ class AdminOptionPage
     /**
      * Add admin menu
      */
-    public function add_admin_menu()
+    public function addAdminMenu()
     {
         add_menu_page(
             'Amicron Schnittstelle',

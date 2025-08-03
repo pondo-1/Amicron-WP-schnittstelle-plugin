@@ -2,6 +2,8 @@
 
 namespace MEC_AmicronSchnittstelle\ShopEntities;
 
+use SimpleXMLElement;
+
 class Categories
 {
     private $categories = [];
@@ -9,7 +11,7 @@ class Categories
     public function __construct()
     {
         // Initialize with WooCommerce categories if needed
-        $this->loadWooCommerceCategories();
+        // $this->loadWooCommerceCategories();
     }
 
     private function loadWooCommerceCategories()
@@ -34,30 +36,48 @@ class Categories
         }
     }
 
+    public function addCategory($id, $parentId, $names, $bild)
+    {
+        $this->categories[] = [
+            'ID' => $id,
+            'PARENT_ID' => $parentId,
+            'NAMES' => $names,
+            'BILD' => $bild
+        ];
+    }
+
     public function addCategoryName($categoryId, $languageId, $name)
     {
-        if (!isset($this->categories[$categoryId])) {
-            $this->categories[$categoryId] = [];
+        foreach ($this->categories as &$category) {
+            if ($category['ID'] == $categoryId) {
+                $category['NAMES'][] = [
+                    'LANGUAGEID' => $languageId,
+                    'NAME' => $name
+                ];
+                break;
+            }
         }
-        $this->categories[$categoryId][$languageId] = $name;
     }
 
     public function generateXML()
     {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $xml .= '<KATEGORIEN>' . "\n";
+        $xml = new SimpleXMLElement('<CATEGORIES/>');
 
-        foreach ($this->categories as $categoryId => $languages) {
-            foreach ($languages as $languageId => $name) {
-                $xml .= "  <KATEGORIE>\n";
-                $xml .= "    <KAT_ID>$categoryId</KAT_ID>\n";
-                $xml .= "    <SPRACH_ID>$languageId</SPRACH_ID>\n";
-                $xml .= "    <KAT_NAME>" . htmlspecialchars($name) . "</KAT_NAME>\n";
-                $xml .= "  </KATEGORIE>\n";
+        foreach ($this->categories as $category) {
+            $categoryDataNode = $xml->addChild('CATEGORIES_DATA');
+            $categoryDataNode->addChild('ID', $category['ID']);
+            $categoryDataNode->addChild('PARENT_ID', $category['PARENT_ID']);
+
+            $namesNode = $categoryDataNode->addChild('NAMES');
+            foreach ($category['NAMES'] as $nameEntry) {
+                $nameEntryNode = $namesNode->addChild('NAMEENTRY');
+                $nameEntryNode->addChild('LANGUAGEID', $nameEntry['LANGUAGEID']);
+                $nameEntryNode->addChild('NAME', $nameEntry['NAME']);
             }
+
+            $categoryDataNode->addChild('BILD', $category['BILD']);
         }
 
-        $xml .= '</KATEGORIEN>';
-        return $xml;
+        return $xml->asXML();
     }
 }

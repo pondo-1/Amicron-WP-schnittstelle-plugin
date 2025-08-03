@@ -1,8 +1,8 @@
 <?php
 
-namespace MEC_AmicronSchnittstelle\Core;
+namespace MEC_AmicronSchnittstelle\Log;
 
-use MEC_AmicronSchnittstelle\Core\Logger;
+use MEC_AmicronSchnittstelle\Log\Logger;
 
 class LogManager
 {
@@ -18,7 +18,7 @@ class LogManager
     public static function getDefaultLogger(): Logger
     {
         if (self::$logger === null) {
-            $logDir = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs';
+            $logDir = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log';
             if (!file_exists($logDir)) {
                 wp_mkdir_p($logDir);
             }
@@ -26,10 +26,11 @@ class LogManager
         }
         return self::$logger;
     }
+
     public static function getSummaryLogger(): Logger
     {
         if (self::$summaryLogger === null) {
-            $logDir = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs';
+            $logDir = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log';
             if (!file_exists($logDir)) {
                 wp_mkdir_p($logDir);
             }

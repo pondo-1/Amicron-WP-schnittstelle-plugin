@@ -1,5 +1,8 @@
 <?php
 
+namespace MEC_AmicronSchnittstelle\ShopEntities;
+
+use SimpleXMLElement;
 
 class ShopData
 {
