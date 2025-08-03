@@ -9,12 +9,8 @@ use MEC_AmicronSchnittstelle\Exporters\XmlExporter;
 use MEC_AmicronSchnittstelle\Exporters\ExcelExporter;
 use MEC_AmicronSchnittstelle\Exporters\FileWriter;
 
-
-require_once __DIR__ . '/../dto/ArticleDTO.php';
-require_once __DIR__ . '/../exporters/XmlExporter.php';
-require_once __DIR__ . '/../exporters/JsonExporter.php';
-require_once __DIR__ . '/../exporters/ExcelExporter.php';
-require_once __DIR__ . '/../exporters/FileWriter.php';
+use SimpleXMLElement;
+use Exception;
 
 
 

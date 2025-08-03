@@ -1,11 +1,16 @@
 <?php
+
 /**
  * Abstract base class for all Data Transfer Objects
  * Provides common functionality for data conversion and export
- * 
- * @author Stefan Witt <stefan.witt@rathje-design.de>
  */
-abstract class AbstractDTO {
+
+namespace MEC_AmicronSchnittstelle\DTO;
+
+use InvalidArgumentException;
+
+abstract class AbstractDTO
+{
     /**
      * Converts the DTO to an array
      *
@@ -19,7 +24,8 @@ abstract class AbstractDTO {
      * @param int|null $options JSON encoding options
      * @return string JSON representation of the DTO
      */
-    public function toJson(int $options = null): string {
+    public function toJson(int $options = null): string
+    {
         if ($options === null) {
             $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
         }
@@ -35,7 +41,8 @@ abstract class AbstractDTO {
      * @param string $escapeChar The escape character to use (default: '\')
      * @return string CSV representation of the DTO (single line)
      */
-    public function toCsv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = '\\'): string {
+    public function toCsv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = '\\'): string
+    {
         $data = $this->toArray();
         $output = fopen('php://temp', 'r+');
 
@@ -47,7 +54,7 @@ abstract class AbstractDTO {
         fclose($output);
 
         return $csv;
-       }
+    }
 
     /**
      * Exports the DTO to a specific format
@@ -57,7 +64,8 @@ abstract class AbstractDTO {
      * @return mixed The exported data
      * @throws InvalidArgumentException If the format is not supported
      */
-    public function exportAs(string $format, array $options = []) {
+    public function exportAs(string $format, array $options = [])
+    {
         switch (strtolower($format)) {
             case 'json':
                 $jsonOptions = $options['options'] ?? null;
@@ -87,7 +95,8 @@ abstract class AbstractDTO {
      * @param array $options Format-specific options
      * @return string The formatted string
      */
-    public function getFormattedOutput(string $format = 'json', array $options = []): string {
+    public function getFormattedOutput(string $format = 'json', array $options = []): string
+    {
         $output = $this->exportAs($format, $options);
 
         if ($format === 'array') {

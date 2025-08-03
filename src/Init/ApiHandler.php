@@ -51,10 +51,14 @@ class ApiHandler
                 $action
             ));
 
-            // Log all key-value pairs in $requestData if present
-            if (!empty($requestData) && is_array($requestData)) {
-                foreach ($requestData as $key => $value) {
-                    $this->summaryLogger->info("requestData: $key = " . json_encode($value, JSON_UNESCAPED_UNICODE));
+            // Log all key-value pairs in $requestData if present, except for read_shopdata and read_languages
+            if (!in_array($action, ['read_shopdata', 'read_languages', 'read_categories', 'write_categorie ', 'read_hersteller', 'write_hersteller'])) {
+                if (!empty($requestData) && is_array($requestData)) {
+                    foreach ($requestData as $key => $value) {
+                        if ($key === "ExportModus" || strpos($key, "Artikel_") === 0) {
+                            $this->summaryLogger->info("$key : " . json_encode($value, JSON_UNESCAPED_UNICODE));
+                        }
+                    }
                 }
             }
 

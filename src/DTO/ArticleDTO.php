@@ -1,14 +1,11 @@
 <?php
-require_once __DIR__ . '/AbstractDTO.php';
-require_once __DIR__ . '/../config/FieldMappingConfig.php';
 
-/**
- * Data Transfer Object for Articles
- * Contains all relevant data of an article
- * 
- * @author Stefan Witt <stefan.witt@rathje-design.de>
- */
-class ArticleDTO extends AbstractDTO {
+namespace MEC_AmicronSchnittstelle\DTO;
+
+use MEC_AmicronSchnittstelle\Config\FieldMappingConfig;
+
+class ArticleDTO extends AbstractDTO
+{
     // Field name constants
     const FIELD_ID = 'Artikel_ID';
     const FIELD_ARTICLE_NUMBER = 'Artikel_Artikelnr';
@@ -51,7 +48,7 @@ class ArticleDTO extends AbstractDTO {
     const FIELD_IMAGES_DATEINAME0 = 'artikel_imagesDateiname0';
     const FIELD_SKIP_IMAGES = 'SkipImages';
     const FIELD_EXPORT_MODUS = 'ExportModus';
-    
+
     // Feld_ constants for additional fields
     const FIELD_LFDNR = 'Feld_LFDNR';
     const FIELD_ARTIKELNR = 'Feld_ARTIKELNR';
@@ -121,7 +118,7 @@ class ArticleDTO extends AbstractDTO {
     const FIELD_LAGER = 'Feld_LAGER';
     const FIELD_LIEFERANTNR = 'Feld_LIEFERANTNR';
     const FIELD_HSNAME = 'Feld_HSNAME';
-    
+
     // Group fields
     const FIELD_GRUPPE1 = 'Feld_Gruppe1';
     const FIELD_GRPART1 = 'Feld_GrpArt1';
@@ -171,7 +168,7 @@ class ArticleDTO extends AbstractDTO {
     public $dbText6;
     public $dbText7;
     public $dbText8;
-    
+
     // Additional article properties
     public $rabattgruppe;
     public $mengeneinheit;
@@ -180,7 +177,7 @@ class ArticleDTO extends AbstractDTO {
     public $bilddateien;
     public $imagesDateiname0;
     public $skipImages;
-    
+
     // Additional properties for all new fields
     public $exportModus;
     public $lfdnr;
@@ -251,7 +248,7 @@ class ArticleDTO extends AbstractDTO {
     public $lager;
     public $lieferantnr;
     public $hsnameFeld;
-    
+
     // Group fields
     public $gruppe1;
     public $grpart1;
@@ -260,7 +257,7 @@ class ArticleDTO extends AbstractDTO {
     public $bezeichnung3_1;
     public $bezeichnung4_1;
     public $bezeichnung5_1;
-    
+
     // Additional fields
     public $freeFields = [];
     public $additionalFields = [];
@@ -271,7 +268,8 @@ class ArticleDTO extends AbstractDTO {
      * @param array $data The article data
      * @return ArticleDTO
      */
-    public static function fromArray(array $data): ArticleDTO {
+    public static function fromArray(array $data): ArticleDTO
+    {
         $dto = new self();
 
         // Basic article data
@@ -303,7 +301,7 @@ class ArticleDTO extends AbstractDTO {
         $dto->deliveryStatus = $data[self::FIELD_DELIVERY_STATUS] ?? '';
         $dto->deliveryStatusText = $data[self::FIELD_DELIVERY_STATUS_TEXT] ?? '';
         $dto->showOnHomepage = $data[self::FIELD_SHOW_ON_HOMEPAGE] ?? 0;
-        
+
         // Additional language and text fields
         $dto->textLanguage = $data[self::FIELD_TEXT_LANGUAGE] ?? '';
         $dto->dbText1 = $data[self::FIELD_DB_TEXT1] ?? '';
@@ -314,7 +312,7 @@ class ArticleDTO extends AbstractDTO {
         $dto->dbText6 = $data[self::FIELD_DB_TEXT6] ?? '';
         $dto->dbText7 = $data[self::FIELD_DB_TEXT7] ?? '';
         $dto->dbText8 = $data[self::FIELD_DB_TEXT8] ?? '';
-        
+
         // Additional article properties
         $dto->rabattgruppe = $data[self::FIELD_RABATTGRUPPE] ?? '';
         $dto->mengeneinheit = $data[self::FIELD_MENGENEINHEIT] ?? '';
@@ -323,7 +321,7 @@ class ArticleDTO extends AbstractDTO {
         $dto->bilddateien = $data[self::FIELD_BILDDATEIEN] ?? 0;
         $dto->imagesDateiname0 = $data[self::FIELD_IMAGES_DATEINAME0] ?? '';
         $dto->skipImages = $data[self::FIELD_SKIP_IMAGES] ?? 0;
-        
+
         // Additional new fields
         $dto->exportModus = $data[self::FIELD_EXPORT_MODUS] ?? '';
         $dto->lfdnr = $data[self::FIELD_LFDNR] ?? '';
@@ -394,7 +392,7 @@ class ArticleDTO extends AbstractDTO {
         $dto->lager = $data[self::FIELD_LAGER] ?? '';
         $dto->lieferantnr = $data[self::FIELD_LIEFERANTNR] ?? '';
         $dto->hsnameFeld = $data[self::FIELD_HSNAME] ?? '';
-        
+
         // Group fields
         $dto->gruppe1 = $data[self::FIELD_GRUPPE1] ?? '';
         $dto->grpart1 = $data[self::FIELD_GRPART1] ?? '';
@@ -429,31 +427,33 @@ class ArticleDTO extends AbstractDTO {
      * @param string $exportType The export type for field name mapping (default, xml, json, excel)
      * @return array
      */
-    public function toArray($exportType = 'default'): array {
+    public function toArray($exportType = 'default'): array
+    {
         $fieldMapping = new FieldMappingConfig();
-        
+
         // Get field mappings for the export type
         $mappings = $fieldMapping->getAllMappedFields($exportType);
-        
+
         // Create result array with original constant names first
         $originalResult = $this->getOriginalArray();
-        
+
         // Apply field name mappings
         $result = [];
         foreach ($originalResult as $constantName => $value) {
             $mappedName = $fieldMapping->getMappedFieldName($constantName, $exportType);
             $result[$mappedName] = $value;
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Gets the original array with constant names as keys
      *
      * @return array
      */
-    private function getOriginalArray(): array {
+    private function getOriginalArray(): array
+    {
         $result = [
             'FIELD_ID' => $this->id,
             'FIELD_ARTICLE_NUMBER' => $this->articleNumber,
@@ -478,7 +478,7 @@ class ArticleDTO extends AbstractDTO {
             'FIELD_DELIVERY_STATUS' => $this->deliveryStatus,
             'FIELD_DELIVERY_STATUS_TEXT' => $this->deliveryStatusText,
             'FIELD_SHOW_ON_HOMEPAGE' => $this->showOnHomepage,
-            
+
             // Additional language and text fields
             'FIELD_TEXT_LANGUAGE' => $this->textLanguage,
             'FIELD_DB_TEXT1' => $this->dbText1,
@@ -489,7 +489,7 @@ class ArticleDTO extends AbstractDTO {
             'FIELD_DB_TEXT6' => $this->dbText6,
             'FIELD_DB_TEXT7' => $this->dbText7,
             'FIELD_DB_TEXT8' => $this->dbText8,
-            
+
             // Additional article properties
             'FIELD_RABATTGRUPPE' => $this->rabattgruppe,
             'FIELD_MENGENEINHEIT' => $this->mengeneinheit,
@@ -498,7 +498,7 @@ class ArticleDTO extends AbstractDTO {
             'FIELD_BILDDATEIEN' => $this->bilddateien,
             'FIELD_IMAGES_DATEINAME0' => $this->imagesDateiname0,
             'FIELD_SKIP_IMAGES' => $this->skipImages,
-            
+
             // Additional new fields
             'FIELD_EXPORT_MODUS' => $this->exportModus,
             'FIELD_LFDNR' => $this->lfdnr,
@@ -569,7 +569,7 @@ class ArticleDTO extends AbstractDTO {
             'FIELD_LAGER' => $this->lager,
             'FIELD_LIEFERANTNR' => $this->lieferantnr,
             'FIELD_HSNAME' => $this->hsnameFeld,
-            
+
             // Group fields
             'FIELD_GRUPPE1' => $this->gruppe1,
             'FIELD_GRPART1' => $this->grpart1,
@@ -598,7 +598,8 @@ class ArticleDTO extends AbstractDTO {
      *
      * @return string
      */
-    public function getSummary(): string {
+    public function getSummary(): string
+    {
         return sprintf(
             "Article #%s: %s (Price: %.2f, Stock: %d)",
             $this->articleNumber,
