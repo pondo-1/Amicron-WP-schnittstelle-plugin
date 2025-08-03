@@ -46,15 +46,14 @@ class AmicronToWooProductMapper
         }
 
         // Map product type (simple/variable)
-        $productData['type'] = $this->determineProductType($artikelData);
+        [
+            $productData['type'],
+            $productData['attributes']
+        ]  = $this->determineProductType($artikelData);
 
         // Map taxonomies
         $productData['taxonomies'] = $this->mapTaxonomies($artikelData);
 
-        // Map attributes for variable products
-        if ($productData['type'] === 'variable') {
-            $productData['attributes'] = $this->mapAttributes($artikelData);
-        }
 
         // Map meta fields
         $productData['meta_data'] = $this->mapMetaFields($artikelData);
@@ -67,12 +66,31 @@ class AmicronToWooProductMapper
         return $productData;
     }
 
-    private function determineProductType(array $artikelData): string
+    private function determineProductType(array $artikelData)
     {
         $config = $this->mappingConfig['complex_fields']['type'];
-        $value = $artikelData[$config['source']][$config['index']] ?? null;
 
-        return $config['mapping'][$value] ?? $config['mapping']['*'];
+        if ($artikelData[$config['source']] == '') {
+            // Simple product with no additional info
+            return ["simple", []];
+        } elseif (str_ends_with($artikelData[$config['source']], 'M')) {
+            // Variant Product with Parent SKU
+            return ["variant", [
+                'parent' => $artikelData[$config['source']],
+                'options' => []????
+            ]]; 
+
+
+        } elseif (strpos($artikelData[$config['source']], ';') !== false) {
+            // Variable product with multiple attributes
+            $values = explode(';', $artikelData[$config['source']]);
+            return ["variable", "attributes" => [
+                'name' => $values[2],
+                'options' => $this->mapOptions($artikelData),
+                'visible' => true,
+                'variation' => true
+            ]];
+        }
     }
 
     private function mapTaxonomies(array $artikelData): array
@@ -86,25 +104,12 @@ class AmicronToWooProductMapper
         return $taxonomies;
     }
 
-    private function mapAttributes(array $artikelData): array
+    private function mapOptions(array $artikelData): array
     {
         $config = $this->mappingConfig['complex_fields']['attributes'];
-        $attributes = [];
+        $options = explode($config['options_delimiter'], $artikelData[$config['options_source']]);
 
-        if (isset($artikelData[$config['source']])) {
-            $attributeName = $artikelData[$config['source']][$config['name_index']] ?? '';
-            if ($attributeName && isset($artikelData[$config['options_source']])) {
-                $options = explode($config['options_delimiter'], $artikelData[$config['options_source']]);
-                $attributes[] = [
-                    'name' => $attributeName,
-                    'options' => array_map('trim', $options),
-                    'visible' => true,
-                    'variation' => true
-                ];
-            }
-        }
-
-        return $attributes;
+        return $options;
     }
 
     private function mapMetaFields(array $artikelData): array

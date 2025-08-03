@@ -19,10 +19,13 @@
   "complex_fields": {
     "type": {
       "source": "Artikel_Freifeld6",
-      "index": 0,
+      "separator": ";",
       "mapping": {
-        "master": "variable",
-        "*": "simple"
+        "1": {
+          "": "simple",
+          "M": "variant"
+        },
+        "3": "variable"
       }
     },
     "attributes": {
