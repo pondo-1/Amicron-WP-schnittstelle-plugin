@@ -51,13 +51,23 @@ class WriteArtikelAction extends AbstractAction
         $mode = '';
         $id = 0;
 
+        $wooProductMapper = new \MEC_AmicronSchnittstelle\Woo\AmicronToWooProductMapper();
+        $mappedProductData = $wooProductMapper->mapToWooProduct($requestData);
+
+        // Log the mapped product data
+        $summaryLogger = LogManager::getSummaryLogger();
+        $summaryLogger->info("Mapped Product Data: " . json_encode($mappedProductData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
         if ($artikelId) {
             // Update existing article
             switch ($exportModus) {
                 case 'Overwrite':
+                    // check if artikel exists, then update it
+                    // if not exists, create a new one
                     $mode = "Updated";
                     break;
                 case 'NoOverwrite':
+                    // If the article already exists, skip it
                     $mode = "None";
                     break;
                 case 'PriceOnly':

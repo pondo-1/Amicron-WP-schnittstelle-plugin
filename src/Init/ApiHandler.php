@@ -56,7 +56,28 @@ class ApiHandler
                 if (!empty($requestData) && is_array($requestData)) {
                     foreach ($requestData as $key => $value) {
                         if ($key === "ExportModus" || strpos($key, "Artikel_") === 0) {
-                            $this->summaryLogger->info("$key : " . json_encode($value, JSON_UNESCAPED_UNICODE));
+                            // Ensure value is valid UTF-8 and properly log special characters
+                            $safeValue = $value;
+                            if (is_string($safeValue)) {
+                                // Try to detect encoding and convert to UTF-8 if needed
+                                if (!mb_check_encoding($safeValue, 'UTF-8')) {
+                                    $encoding = mb_detect_encoding($safeValue, ['ISO-8859-1', 'Windows-1252', 'UTF-8'], true);
+                                    if ($encoding && $encoding !== 'UTF-8') {
+                                        $safeValue = mb_convert_encoding($safeValue, 'UTF-8', $encoding);
+                                    } else {
+                                        $safeValue = mb_convert_encoding($safeValue, 'UTF-8', 'auto');
+                                    }
+                                }
+                                // If still not valid UTF-8, show as hex
+                                if (!mb_check_encoding($safeValue, 'UTF-8')) {
+                                    $safeValue = '[binary: ' . bin2hex($value) . ']';
+                                }
+                            }
+                            // Encode special characters for logging, preserving German letters
+                            // if (is_string($safeValue)) {
+                            //     $safeValue = json_encode($safeValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                            // }
+                            $this->summaryLogger->info($key . ": " . print_r($safeValue, true));
                         }
                     }
                 }

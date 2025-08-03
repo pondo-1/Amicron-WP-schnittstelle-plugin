@@ -1,6 +1,4 @@
 
-1. Update durch sku 
-2. Update durch Artikel ID  
 {
   "name": Artikel["Artikel_DBText1"],
   "type": "simple" || "variable", // if Artikel["Artikel_Freifeld6"][0] is "master"

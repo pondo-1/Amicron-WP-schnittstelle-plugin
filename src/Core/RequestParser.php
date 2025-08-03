@@ -14,6 +14,7 @@ use MEC_AmicronSchnittstelle\Log\LogManager;
 class RequestParser
 {
     private $logger;
+    private $summaryLogger;
     private $requestMethod;
     private $requestedUrl;
     private $queryString;
@@ -30,6 +31,7 @@ class RequestParser
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
+        $this->summaryLogger = LogManager::getSummaryLogger();
         $this->requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN';
         $this->requestedUrl = $_SERVER['REQUEST_URI'] ?? '';
         $this->queryString = $_SERVER['QUERY_STRING'] ?? '';
