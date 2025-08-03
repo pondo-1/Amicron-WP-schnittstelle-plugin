@@ -39,7 +39,7 @@ class AdminOptionPage
             summary
             <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
                 <?php
-                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs/summary_logs.txt';
+                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
                 if (file_exists($log_file)) {
                     $logs = file($log_file);
                     // Show last 1000 lines for performance
@@ -55,7 +55,7 @@ class AdminOptionPage
             all
             <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
                 <?php
-                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/logs/logs.txt';
+                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/logs.txt';
                 if (file_exists($log_file)) {
                     $logs = file($log_file);
                     // Show last 1000 lines for performance

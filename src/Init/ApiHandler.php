@@ -43,9 +43,8 @@ class ApiHandler
 
             // Get action
             $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : '');
-            $this->summaryLogger->info("Action: $action");
 
-            // Summary log: timestamp | method | action
+            // Summary log: method | action
             $this->summaryLogger->info(sprintf(
                 "%s | %s",
                 $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',

@@ -4,9 +4,8 @@
  * Direct Script Access
  * This file provides direct access to the MEC Shop API for external applications
  * that need to call a specific PHP script rather than using WordPress endpoints.
- * 
- * @author Stefan Witt <stefan.witt@rathje-design.de>
  */
+
 
 // Check if we're being called from within WordPress
 if (!defined('ABSPATH')) {
@@ -37,16 +36,26 @@ if (class_exists('MecAmicronSchnittstelle')) {
         $mec_shop_plugin_instance = new MecAmicronSchnittstelle();
     }
 
-    // Assuming you now have an APIHandler class with a new structure
-    if (class_exists('APIHandler')) {
-        $apiHandler = new \MEC_AmicronSchnittstelle\Init\ApiHandler();
-        $apiHandler->handle_request();
+    // Check for the ApiHandler class with correct namespace
+    if (class_exists('MEC_AmicronSchnittstelle\Init\ApiHandler')) {
+        try {
+            $apiHandler = new \MEC_AmicronSchnittstelle\Init\ApiHandler();
+            $apiHandler->handle_request();
+        } catch (\Exception $e) {
+            http_response_code(500);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'error' => 'API Handler Error',
+                'message' => $e->getMessage()
+            ]);
+        }
     } else {
+        error_log('MEC Shop API: ApiHandler class not found in namespace MEC_AmicronSchnittstelle\Init');
         http_response_code(503);
         header('Content-Type: application/json');
         echo json_encode([
-            'error' => 'APIHandler not found',
-            'message' => 'APIHandler class is missing or not loaded'
+            'error' => 'API Handler not found',
+            'message' => 'The API handler component is missing or not properly loaded'
         ]);
     }
 } else {
