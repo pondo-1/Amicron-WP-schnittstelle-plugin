@@ -77,7 +77,7 @@ class ApiHandler
                             // if (is_string($safeValue)) {
                             //     $safeValue = json_encode($safeValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                             // }
-                            $this->summaryLogger->info($key . ": " . print_r($safeValue, true));
+                            // $this->summaryLogger->info($key . ": " . print_r($safeValue, true));
                         }
                     }
                 }

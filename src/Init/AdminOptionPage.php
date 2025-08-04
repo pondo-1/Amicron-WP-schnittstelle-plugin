@@ -36,37 +36,85 @@ class AdminOptionPage
             <h1>MEC Shop Amicron Schnittstelle</h1>
             <p>Welcome to the MEC Shop Amicron Schnittstelle plugin. Use the API to manage your product data.</p>
             <h2>Plugin Logs</h2>
-            summary
-            <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
-                <?php
-                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
-                if (file_exists($log_file)) {
-                    $logs = file($log_file);
-                    // Show last 1000 lines for performance
-                    $logs = array_slice($logs, -1000);
-                    foreach ($logs as $line) {
-                        echo esc_html($line) . "<br>";
+            <div class="amicron-logs-container">
+                <div class="amicron-log-section">
+                    <h3>Summary Logs</h3>
+                    <div class="amicron-log-viewer">
+                        <pre><?php
+                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
+                                if (file_exists($log_file)) {
+                                    $logs = file_get_contents($log_file);
+                                    $logs = explode("\n", $logs);
+                                    // Show last 1000 lines for performance
+                                    $logs = array_slice($logs, -1000);
+                                    echo esc_html(implode("\n", $logs));
+                                } else {
+                                    echo '<em>No summary log file found.</em>';
+                                }
+                                ?></pre>
+                    </div>
+                </div>
+
+                <div class="amicron-log-section">
+                    <h3>Detailed Logs</h3>
+                    <div class="amicron-log-viewer">
+                        <pre><?php
+                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/logs.txt';
+                                if (file_exists($log_file)) {
+                                    $logs = file_get_contents($log_file);
+                                    $logs = explode("\n", $logs);
+                                    // Show last 1000 lines for performance
+                                    $logs = array_slice($logs, -1000);
+                                    echo esc_html(implode("\n", $logs));
+                                } else {
+                                    echo '<em>No detailed log file found.</em>';
+                                }
+                                ?></pre>
+                    </div>
+                </div>
+
+                <style>
+                    .amicron-logs-container {
+                        margin: 20px 0;
                     }
-                } else {
-                    echo '<em>No log file found.</em>';
-                }
-                ?>
-            </div>
-            all
-            <div style="background: #f9f9f9; border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px;">
-                <?php
-                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/logs.txt';
-                if (file_exists($log_file)) {
-                    $logs = file($log_file);
-                    // Show last 1000 lines for performance
-                    $logs = array_slice($logs, -1000);
-                    foreach ($logs as $line) {
-                        echo esc_html($line) . "<br>";
+
+                    .amicron-log-section {
+                        margin-bottom: 30px;
                     }
-                } else {
-                    echo '<em>No log file found.</em>';
-                }
-                ?>
+
+                    .amicron-log-section h3 {
+                        margin-bottom: 10px;
+                    }
+
+                    .amicron-log-viewer {
+                        background: #f9f9f9;
+                        border: 1px solid #e5e5e5;
+                        border-radius: 4px;
+                        padding: 15px;
+                        <pre><?php
+                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
+                                if (file_exists($log_file)) {
+                                    $logs = file_get_contents($log_file);
+                                    $logs = explode("\n", $logs);
+                                    // Show last 1000 lines for performance
+                                    $logs = array_slice($logs, -1000);
+                                    echo esc_html(implode("\n", $logs));
+                                } else {
+                                    echo '<em>No summary log file found.</em>';
+                                }
+                                ?></pre>max-height: 400px;
+                        overflow-y: auto;
+                    }
+
+                    .amicron-log-viewer pre {
+                        margin: 0;
+                        font-family: Consolas, Monaco, 'Andale Mono', monospace;
+                        font-size: 13px;
+                        white-space: pre-wrap;
+                        word-wrap: break-word;
+                        color: #333;
+                    }
+                </style>
             </div>
         </div>
 <?php

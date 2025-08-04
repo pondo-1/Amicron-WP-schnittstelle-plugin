@@ -1,38 +1,68 @@
 {
-  "direct_mappings": {
-    "name": "Artikel_DBText1",
-    "description": "Artikel_DBText4",
-    "short_description": "Artikel_DBText8",
-    "sku": "Artikel_artikelnr",
-    "price": "Artikel_Preis",
-    "regular_price": "Artikel_Preis",
-    "stock_quantity": "Artikel_Menge"
+  "mapping_config": {
+    "direct": {
+      "name": "Artikel_DBText1",
+      "description": "Artikel_DBText4",
+      "short_description": "Artikel_DBText8",
+      "sku": "Artikel_Artikelnr",
+      "regular_price": "Artikel_Preis",
+      "stock_quantity": "Artikel_Menge"
+    },
+    "taxonomies": {
+      "product_cat": "Artikel_Freifeld17",
+      "product_brand": "Artikel_Freifeld16"
+    },
+    "meta_fields": {
+      "amicron_artikelID": "Artikel_ID",
+      "compatible": "Artikel_Kurztext1"
+    },
+    "complex": {
+      "type": {
+        "source": "Artikel_Freifeld6",
+        "separator": ";",
+        "mapping": {
+          "1": "simple",
+          "2": "variable",
+          "3": "variant"
+        }
+      },
+      "attributes": {
+        "source": "Artikel_Freifeld6",
+        "name_index": 2
+      },
+      "variant_info": {
+        "parent_sku": "Artikel_Freifeld6",
+        "attribute_source": "Artikel_DBText4"
+      }
+    }
   },
-  "taxonomies": {
-    "product_cat": "Artikel_Freifeld17",
-    "product_brand": "Artikel_Freifeld16"
-  },
-  "meta_fields": {
-    "amicron_artikelID": "Artikel_ID",
-    "compatible": "Artikel_Kurztext1"
-  },
-  "complex_fields": {
-    "type": {
-      "source": "Artikel_Freifeld6",
-      "separator": ";",
-      "mapping": {
-        "1": {
-          "": "simple",
-          "M": "variant"
-        },
-        "3": "variable"
+  "woo_product": {
+    "sku": "",
+    "name": "",
+    "product_type": "",
+    "product_info": {
+      "option": {
+        "name": ""
+      },
+      "attribute": {
+        "parent_sku": "",
+        "value": ""
       }
     },
-    "attributes": {
-      "source": "Artikel_Freifeld6",
-      "name_index": 2,
-      "options_source": "Artikel_Freifeld18",
-      "options_delimiter": "\\/"
-    }
+    "regular_price": "",
+    "manage_stock": true,
+    "stock_status": "",
+    "stock_quantity": null,
+    "taxonomies": {
+      "product_cat": "",
+      "product_brand": ""
+    },
+    "meta_fields": {
+      "amicron_artikelID": "",
+      "compatible": ""
+    },
+    "images": [],
+    "description": "",
+    "short_description": ""
   }
 }

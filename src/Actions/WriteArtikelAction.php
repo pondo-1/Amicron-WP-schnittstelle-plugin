@@ -4,6 +4,8 @@ namespace MEC_AmicronSchnittstelle\Actions;
 
 use MEC_AmicronSchnittstelle\Log\LogManager;
 use MEC_AmicronSchnittstelle\DTO\ArticleDTO;
+use MEC_AmicronSchnittstelle\Utils\ArrayFormatter;
+use MEC_AmicronSchnittstelle\Woo\WooProductUpdater;
 use MEC_AmicronSchnittstelle\Exporters\JsonExporter;
 use MEC_AmicronSchnittstelle\Exporters\XmlExporter;
 use MEC_AmicronSchnittstelle\Exporters\ExcelExporter;
@@ -53,15 +55,22 @@ class WriteArtikelAction extends AbstractAction
 
         $wooProductMapper = new \MEC_AmicronSchnittstelle\Woo\AmicronToWooProductMapper();
         $mappedProductData = $wooProductMapper->mapToWooProduct($requestData);
+        $readableProductData = ArrayFormatter::prettyPrint($mappedProductData, 4);
+        $log = LogManager::getSummaryLogger();
 
-        // Log the mapped product data
-        $summaryLogger = LogManager::getSummaryLogger();
-        $summaryLogger->info("Mapped Product Data: " . json_encode($mappedProductData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
+        $wooUpdater = new WooProductUpdater();
         if ($artikelId) {
             // Update existing article
             switch ($exportModus) {
                 case 'Overwrite':
+                    $result = $wooUpdater->updateProductBySku($mappedProductData);
+                    if (is_wp_error($result)) {
+                        // Handle error
+                        $error_message = $result->get_error_message();
+                    } else {
+                        // Success - $result contains the product ID
+                        $log->info("Update Success:\n" . $readableProductData);
+                    }
                     // check if artikel exists, then update it
                     // if not exists, create a new one
                     $mode = "Updated";
