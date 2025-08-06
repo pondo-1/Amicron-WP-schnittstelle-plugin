@@ -41,17 +41,32 @@ class AdminOptionPage
                     <h3>Summary Logs</h3>
                     <div class="amicron-log-viewer">
                         <pre><?php
-                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
+                                echo "<!-- Debugging summary log output -->";
+                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Log' . DIRECTORY_SEPARATOR . 'summary_logs.txt';
+                                echo "<!-- Log file path: " . esc_html($log_file) . " -->"; // Debug path
                                 if (file_exists($log_file)) {
+                                    echo "<!-- File exists -->";
+                                    echo "<!-- File permissions: " . substr(sprintf('%o', fileperms($log_file)), -4) . " -->";
                                     $logs = file_get_contents($log_file);
-                                    $logs = explode("\n", $logs);
-                                    // Show last 1000 lines for performance
-                                    $logs = array_slice($logs, -1000);
-                                    echo esc_html(implode("\n", $logs));
+                                    if ($logs === false) {
+                                        echo '<em>Error reading log file. Check file permissions.</em>';
+                                    } else {
+                                        if (empty($logs)) {
+                                            echo '<em>Log file exists but is empty.</em>';
+                                        } else {
+                                            echo "<!-- Content length: " . strlen($logs) . " bytes -->";
+                                            $logs = mb_convert_encoding($logs, 'UTF-8', 'UTF-8');
+                                            $logs = explode("\n", $logs);
+                                            // Show last 1000 lines for performance
+                                            $logs = array_slice($logs, -1000);
+                                            echo esc_html(implode("\n", $logs));
+                                        }
+                                    }
                                 } else {
-                                    echo '<em>No summary log file found.</em>';
+                                    echo '<em>No summary log file found at: ' . esc_html($log_file) . '</em>';
                                 }
-                                ?></pre>
+                                ?>
+                        </pre>
                     </div>
                 </div>
 
@@ -59,17 +74,32 @@ class AdminOptionPage
                     <h3>Detailed Logs</h3>
                     <div class="amicron-log-viewer">
                         <pre><?php
-                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/logs.txt';
+                                echo "<!-- Debugging summary log output -->";
+                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Log' . DIRECTORY_SEPARATOR . 'logs.txt';
+                                echo "<!-- Log file path: " . esc_html($log_file) . " -->"; // Debug path
                                 if (file_exists($log_file)) {
+                                    echo "<!-- File exists -->";
+                                    echo "<!-- File permissions: " . substr(sprintf('%o', fileperms($log_file)), -4) . " -->";
                                     $logs = file_get_contents($log_file);
-                                    $logs = explode("\n", $logs);
-                                    // Show last 1000 lines for performance
-                                    $logs = array_slice($logs, -1000);
-                                    echo esc_html(implode("\n", $logs));
+                                    if ($logs === false) {
+                                        echo '<em>Error reading log file. Check file permissions.</em>';
+                                    } else {
+                                        if (empty($logs)) {
+                                            echo '<em>Log file exists but is empty.</em>';
+                                        } else {
+                                            echo "<!-- Content length: " . strlen($logs) . " bytes -->";
+                                            $logs = mb_convert_encoding($logs, 'UTF-8', 'UTF-8');
+                                            $logs = explode("\n", $logs);
+                                            // Show last 1000 lines for performance
+                                            $logs = array_slice($logs, -1000);
+                                            echo esc_html(implode("\n", $logs));
+                                        }
+                                    }
                                 } else {
-                                    echo '<em>No detailed log file found.</em>';
+                                    echo '<em>No summary log file found at: ' . esc_html($log_file) . '</em>';
                                 }
-                                ?></pre>
+                                ?>
+                        </pre>
                     </div>
                 </div>
 

@@ -41,6 +41,13 @@ class WriteArtikelAction extends AbstractAction
         // Instead of exporting files, just log the data processing
         $this->logger->info("Article processing completed - no XML files generated, all data logged above");
 
+        $this->logger->info('WriteArtikel processing with ExportModus: ' . $exportModus);
+        $this->logger->info('Article ID: ' . ($artikelId ?: 'new') . ', Article Nr: ' . $artikelNr);
+
+        // Create an ArticleDTO object from the POST data
+        $articleDTO = ArticleDTO::fromArray($requestData);
+        $this->logger->info("Article DTO: " . json_encode($articleDTO->toArray()));
+
         // Determine message and mode based on parameters
         $message = 'OK'; // According to requirements, the message must be "OK"
         $mode = '';
