@@ -38,13 +38,6 @@ class WriteArtikelAction extends AbstractAction
         $artikelId = isset($requestData['Artikel_ID']) ? $requestData['Artikel_ID'] : null;
         $artikelNr = isset($requestData['Artikel_Artikelnr']) ? $requestData['Artikel_Artikelnr'] : '';
 
-        $this->logger->info('WriteArtikel processing with ExportModus: ' . $exportModus);
-        $this->logger->info('Article ID: ' . ($artikelId ?: 'new') . ', Article Nr: ' . $artikelNr);
-
-        // Create an ArticleDTO object from the POST data
-        $articleDTO = ArticleDTO::fromArray($requestData);
-        $this->logger->info("Article DTO: " . json_encode($articleDTO->toArray()));
-
         // Instead of exporting files, just log the data processing
         $this->logger->info("Article processing completed - no XML files generated, all data logged above");
 
