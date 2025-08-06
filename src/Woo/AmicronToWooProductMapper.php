@@ -116,7 +116,7 @@ class AmicronToWooProductMapper
         $metaData = [];
         foreach ($this->mappingConfig['meta_fields'] as $metaKey => $field) {
             if ($metaKey === 'compatible') {
-                $metaData[$metaKey] =  preg_split('/;\r\n|\n/', rtrim($artikelData[$field], ';'));
+                $metaData[$metaKey] = json_encode(preg_split('/;\r\n|\n/', rtrim($artikelData[$field], ';')));
             } else if (isset($artikelData[$field])) {
                 $metaData[$metaKey] = $artikelData[$field];
             }

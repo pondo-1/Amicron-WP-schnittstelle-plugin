@@ -91,18 +91,7 @@ class AdminOptionPage
                         border: 1px solid #e5e5e5;
                         border-radius: 4px;
                         padding: 15px;
-                        <pre><?php
-                                $log_file = MEC_AMICRON_SCHNITTSTELLE_PLUGIN_PATH . 'src/Log/summary_logs.txt';
-                                if (file_exists($log_file)) {
-                                    $logs = file_get_contents($log_file);
-                                    $logs = explode("\n", $logs);
-                                    // Show last 1000 lines for performance
-                                    $logs = array_slice($logs, -1000);
-                                    echo esc_html(implode("\n", $logs));
-                                } else {
-                                    echo '<em>No summary log file found.</em>';
-                                }
-                                ?></pre>max-height: 400px;
+                        max-height: 400px;
                         overflow-y: auto;
                     }
 

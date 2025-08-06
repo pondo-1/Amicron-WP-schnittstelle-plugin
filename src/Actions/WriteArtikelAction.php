@@ -56,8 +56,6 @@ class WriteArtikelAction extends AbstractAction
         $wooProductMapper = new \MEC_AmicronSchnittstelle\Woo\AmicronToWooProductMapper();
         $mappedProductData = $wooProductMapper->mapToWooProduct($requestData);
         $readableProductData = ArrayFormatter::prettyPrint($mappedProductData, 4);
-        $log = LogManager::getSummaryLogger();
-
         $wooUpdater = new WooProductUpdater();
         if ($artikelId) {
             // Update existing article
@@ -69,7 +67,7 @@ class WriteArtikelAction extends AbstractAction
                         $error_message = $result->get_error_message();
                     } else {
                         // Success - $result contains the product ID
-                        $log->info("Update Success:\n" . $readableProductData);
+                        LogManager::getSummaryLogger()->info("Update Success:\n" . $readableProductData);
                     }
                     // check if artikel exists, then update it
                     // if not exists, create a new one

@@ -15,6 +15,8 @@ class WooProductUpdater
      * @param array $productData Array containing product data
      * @return int|WP_Error Product ID on success, WP_Error on failure
      */
+
+    public function execute($requestData = []) {}
     public function updateProductBySku(array $productData)
     {
         try {
@@ -81,9 +83,9 @@ class WooProductUpdater
         if (!empty($data['regular_price'])) {
             $product->set_regular_price($data['regular_price']);
         }
-        if (!empty($data['price'])) {
-            $product->set_price($data['price']);
-        }
+        // if (!empty($data['price'])) {
+        //     $product->set_price($data['price']);
+        // }
 
         // Stock handling
         if (isset($data['manage_stock'])) {
