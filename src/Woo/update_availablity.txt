@@ -1,0 +1,34 @@
+    
+    S - Simple 
+    V - Variable 
+    A - Variant(defined by Attribute from Variable)
+
+    o: Die Eigenschaft gehört zu dem Produkt typ
+    x: Die Eigenschaft gehört zu dem Produkt typ nicht 
+
+    S:V:A:WC Product          : Amicron Export 
+    
+    o:o:x:name                : Artikel_DBText1
+    o:o:x:description         : Artikel_DBText4
+    o:o:x:short_description   : Artikel_DBText8
+    o:x:o:regualr_price       : Artikel_Preis
+    o:x:o:stock_quantity      : Artikel_Menge
+
+    --product Info                                                      ;(Soll nicht ändern)
+    x:o:x:option_name         : 3. Element von Artikel_Freifeld6  
+
+    x:x:o:parent SKU          : Artikel_Freifeld6
+    x:x:o:attribute_value     : letzte Line von Artikel_DBText4
+
+    --taxonomy
+    o:o:x:product_cat         : Artikel_Freifeld17                      ; noch nicht 
+    o:o:x:product_brand       : Artikel_Freifeld16                      ; noch nicht 
+
+    --meta field 
+    o:o:x:amicron_artikelID   : Artikel_ID                              ; this can be changed in WC
+    o:o:x:compatible          : Artikel_Kurztext1
+
+
+
+Nach dem Export von Amicron, aktualisierte Meta field "compatible" wird einfach gespeichert und gezeigt in Frontend. Aber es wird nicht für Filter verwendent.      
+Compatible mit: Was für Filter() verwendet, wird nicht automatisch updated-> Mit der Anforderung ist es möglich 
