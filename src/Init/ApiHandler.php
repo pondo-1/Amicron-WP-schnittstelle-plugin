@@ -56,21 +56,50 @@ class ApiHandler
                 if (!empty($requestData) && is_array($requestData)) {
                     foreach ($requestData as $key => $value) {
                         if ($key === "ExportModus" || strpos($key, "Artikel_") === 0) {
-                            // Ensure value is valid UTF-8 and properly log special characters
-                            $safeValue = $value;
-                            if (is_string($safeValue)) {
-                                // Try to detect encoding and convert to UTF-8 if needed
-                                if (!mb_check_encoding($safeValue, 'UTF-8')) {
-                                    $encoding = mb_detect_encoding($safeValue, ['ISO-8859-1', 'Windows-1252', 'UTF-8'], true);
-                                    if ($encoding && $encoding !== 'UTF-8') {
-                                        $safeValue = mb_convert_encoding($safeValue, 'UTF-8', $encoding);
+                            // Handle image files
+                            if ($key === "Artikel_image" || $key === "Artikel_images") {
+                                // Check if files were uploaded
+                                if (isset($_FILES[$key])) {
+                                    if ($key === "Artikel_image") {
+                                        // Single image file
+                                        $this->logger->info("Single image file received: " . $_FILES[$key]['name']);
+                                        $safeValue = sprintf(
+                                            "[Image file: %s, size: %s bytes, type: %s]",
+                                            $_FILES[$key]['name'],
+                                            $_FILES[$key]['size'],
+                                            $_FILES[$key]['type']
+                                        );
                                     } else {
-                                        $safeValue = mb_convert_encoding($safeValue, 'UTF-8', 'auto');
+                                        // Multiple image files
+                                        $fileCount = is_array($_FILES[$key]['name']) ? count($_FILES[$key]['name']) : 0;
+                                        $this->logger->info("Multiple image files received: {$fileCount} files");
+                                        $fileNames = is_array($_FILES[$key]['name']) ? implode(', ', $_FILES[$key]['name']) : '';
+                                        $safeValue = sprintf(
+                                            "[Multiple images: %d files - %s]",
+                                            $fileCount,
+                                            $fileNames
+                                        );
                                     }
+                                } else {
+                                    $safeValue = "[No image file received]";
                                 }
-                                // If still not valid UTF-8, show as hex
-                                if (!mb_check_encoding($safeValue, 'UTF-8')) {
-                                    $safeValue = '[binary: ' . bin2hex($value) . ']';
+                            } else {
+                                // Handle regular text values with UTF-8 encoding
+                                $safeValue = $value;
+                                if (is_string($safeValue)) {
+                                    // Try to detect encoding and convert to UTF-8 if needed
+                                    if (!mb_check_encoding($safeValue, 'UTF-8')) {
+                                        $encoding = mb_detect_encoding($safeValue, ['ISO-8859-1', 'Windows-1252', 'UTF-8'], true);
+                                        if ($encoding && $encoding !== 'UTF-8') {
+                                            $safeValue = mb_convert_encoding($safeValue, 'UTF-8', $encoding);
+                                        } else {
+                                            $safeValue = mb_convert_encoding($safeValue, 'UTF-8', 'auto');
+                                        }
+                                    }
+                                    // If still not valid UTF-8, show as hex
+                                    if (!mb_check_encoding($safeValue, 'UTF-8')) {
+                                        $safeValue = '[binary: ' . bin2hex($value) . ']';
+                                    }
                                 }
                             }
                             // Encode special characters for logging, preserving German letters

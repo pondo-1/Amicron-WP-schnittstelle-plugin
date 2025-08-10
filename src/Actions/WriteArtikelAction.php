@@ -53,22 +53,22 @@ class WriteArtikelAction extends AbstractAction
         $mode = '';
         $id = 0;
 
-        $wooProductMapper = new \MEC_AmicronSchnittstelle\Woo\AmicronToWooProductMapper();
-        $mappedProductData = $wooProductMapper->mapToWooProduct($requestData);
-        $readableProductData = ArrayFormatter::prettyPrint($mappedProductData, 4);
-        $wooUpdater = new WooProductUpdater();
+        // $wooProductMapper = new \MEC_AmicronSchnittstelle\Woo\AmicronToWooProductMapper();
+        // $mappedProductData = $wooProductMapper->mapToWooProduct($requestData);
+        // $readableProductData = ArrayFormatter::prettyPrint($mappedProductData, 4);
+        // $wooUpdater = new WooProductUpdater();
         if ($artikelId) {
             // Update existing article
             switch ($exportModus) {
                 case 'Overwrite':
-                    $result = $wooUpdater->updateProductBySku($mappedProductData);
-                    if (is_wp_error($result)) {
-                        // Handle error
-                        $error_message = $result->get_error_message();
-                    } else {
-                        // Success - $result contains the product ID
-                        LogManager::getSummaryLogger()->info("Update Success:\n" . $readableProductData);
-                    }
+                    // $result = $wooUpdater->updateProductBySku($mappedProductData);
+                    // if (is_wp_error($result)) {
+                    //     // Handle error
+                    //     $error_message = $result->get_error_message();
+                    // } else {
+                    //     // Success - $result contains the product ID
+                    //     LogManager::getSummaryLogger()->info("Update Success:\n" . $readableProductData);
+                    // }
                     // check if artikel exists, then update it
                     // if not exists, create a new one
                     $mode = "Updated";
